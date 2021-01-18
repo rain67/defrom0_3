@@ -22,3 +22,4 @@ x = Variable(np.array(10))
 f = Function()
 y = f(x)
 
+print(type(y))
