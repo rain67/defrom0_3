@@ -17,9 +17,24 @@ class Function:
         y = x ** 2
         output = Variable(y)
         return output
+    
+    def forward(self,x):
+        raise NotImplementedError() # forward methodは継承先で作成しないとエラーになる。
+
 
 x = Variable(np.array(10))
 f = Function()
 y = f(x)
 
 print(type(y))
+
+class Squre(Function):
+     def forward(self,x):
+         return x ** 2
+
+x = Variable(np.array(10))
+f = Squre()
+y = f(x)
+print(type(y))
+
+# step3 関数の連結
