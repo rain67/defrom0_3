@@ -38,3 +38,17 @@ y = f(x)
 print(type(y))
 
 # step3 関数の連結
+
+class Exp(Function):
+    def forward(self,x):
+        return np.exp(x)
+
+A = Squre()
+B = Exp()
+C = Squre()
+
+x = Variable(np.array(0.5))
+a = A(x)
+b = B(a)
+y = C(b)
+print(y.data)
