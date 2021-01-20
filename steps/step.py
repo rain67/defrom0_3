@@ -4,6 +4,7 @@ import numpy as np
 class Variable:
      def __init__(self, data):
          self.data = data
+         self.grad = None
 
 data = np.array(1.0)
 x = Variable(data)
@@ -16,10 +17,14 @@ class Function:
         x = input.data
         y = x ** 2
         output = Variable(y)
+        self.input = input
         return output
     
     def forward(self,x):
         raise NotImplementedError() # forward methodは継承先で作成しないとエラーになる。
+    
+    def backward(self,gy):
+        raise NotImplementedError()
 
 
 x = Variable(np.array(10))
@@ -29,8 +34,14 @@ y = f(x)
 print(type(y))
 
 class Squre(Function):
-     def forward(self,x):
-         return x ** 2
+    def forward(self,x):
+        y = x ** 2
+        return y
+
+    def backward(self,gy):
+        x = self.input.data
+        gx = 2 * x * gy
+        return gx
 
 x = Variable(np.array(10))
 f = Squre()
@@ -41,7 +52,13 @@ print(type(y))
 
 class Exp(Function):
     def forward(self,x):
-        return np.exp(x)
+        y = np.exp(x)
+        return y
+    
+    def backward(self, gy):
+        x = self.input.data
+        gx = np.exp(x)
+        return gx
 
 A = Squre()
 B = Exp()
@@ -52,3 +69,4 @@ a = A(x)
 b = B(a)
 y = C(b)
 print(y.data)
+
